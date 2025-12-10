@@ -20,7 +20,7 @@ public class TileManager {
 
         this.pj = pj;
 
-        tile = new Tile[35];
+        tile = new Tile[55];
 
         NumeroTileMapa = new int [pj.mapaMax][pj.mundoMaxCol][pj.mundoMaxLinha];
 
@@ -28,6 +28,7 @@ public class TileManager {
         carregaMapa("/maps/MAPAMUNDI.txt", 0);
         carregaMapa("/maps/DESERTO.txt", 1);
         carregaMapa("/maps/indoor01.txt", 2);
+        carregaMapa("/maps/PANTANO.txt", 3);
     }
 
     public void getTileImage() {
@@ -57,6 +58,24 @@ public class TileManager {
             setup(23, "23cacto2", true);
             setup(24, "24cacto", true);
             setup(25, "25cactoredondo2", true);
+            setup(26, "26coqueiro-baixo-grama", true);
+            setup(27, "27coqueiro-cima-areia", true);
+            setup(28, "28coqueiro-baixo-areia", true);
+            setup(29, "29coqueiro-cima-grama", true);
+            setup(30, "30grama-pantano", false);
+            setup(31, "31tronco-pantano", true);
+            setup(32, "32arvore-pantano", true);
+            setup(33, "33cerca-costas", true);
+            setup(34, "34cerca-frente", true);
+            setup(35, "35cerca", true);
+            setup(36, "36castelo0", true);
+            setup(37, "37castelo1", true);
+            setup(38, "38castelo2", true);
+            setup(39, "39castelo3", true);
+            setup(40, "40castelo4", true);
+            setup(41, "41castelo5", true);
+            setup(42, "42castelo6", false);
+            setup(43, "43castelo7", true);
     }
     public void setup(int index, String caminhoImagem, boolean colisao) {
 

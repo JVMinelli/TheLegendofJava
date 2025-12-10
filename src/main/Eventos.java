@@ -59,6 +59,9 @@ public class Eventos {
             if(hit(0,37,2,"any") == true) {teleport(2,22,27);}
             if(hit(2,22,28, "any") == true) {teleport(0,37,2);}
 
+            if(hit(1,32,0,"any") == true) {teleport(3,23,48);}
+            if(hit(3,23,49, "any") == true) {teleport(1,32,1);}
+
             if(hit(1,29,20,"cima") == true || hit(1,30,20,"cima") || hit(1,31,20,"cima") || hit(1,32,20,"cima") || hit(1,33,20,"cima")
             || hit(1,34,20,"cima") || hit(1,28,19,"direita") || hit(1,28,18,"direita") || hit(1,28,17,"direita") || hit(1,28,16,"direita") || hit(1,28,15,"direita")
             || hit(1,29,14,"baixo") || hit(1,30,14,"baixo") || hit(1,31,14,"baixo") || hit(1,32,14,"baixo") || hit(1,33,14,"baixo") || hit(1,34,14,"baixo")

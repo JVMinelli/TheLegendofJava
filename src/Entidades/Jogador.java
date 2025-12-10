@@ -52,7 +52,7 @@ public class Jogador extends Entidade{
 
         mundox=pj.tamanhoTile*20;
         mundoy=pj.tamanhoTile*43;
-        Vel=4;
+        Vel=10;
         direção = "baixo";
 
         vidaMax = 6;

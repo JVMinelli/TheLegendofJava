@@ -38,6 +38,12 @@ public class AssetSetter {
         PJ.obj[numMapa][6] = new OBJ_fogueira(PJ);
         PJ.obj[numMapa][6].mundox = 20 * PJ.tamanhoTile;
         PJ.obj[numMapa][6].mundoy = 42 * PJ.tamanhoTile;
+
+        numMapa++;
+
+        PJ.obj[numMapa][0] = new OBJ_cristaldourado(PJ);
+        PJ.obj[numMapa][0].mundox = 26 * PJ.tamanhoTile;
+        PJ.obj[numMapa][0].mundoy = 1 * PJ.tamanhoTile;
     }
 
     public void setNPC() {
@@ -83,6 +89,10 @@ public class AssetSetter {
         PJ.npc[numMapa][3] = new NPCguiadeserto(PJ);
         PJ.npc[numMapa][3].mundox = PJ.tamanhoTile*22;
         PJ.npc[numMapa][3].mundoy = PJ.tamanhoTile*44;
+
+        PJ.npc[numMapa][4] = new NPCcristaldeserto(PJ);
+        PJ.npc[numMapa][4].mundox = PJ.tamanhoTile*25;
+        PJ.npc[numMapa][4].mundoy = PJ.tamanhoTile*1;
     }
 
     public void setMonstro() {
