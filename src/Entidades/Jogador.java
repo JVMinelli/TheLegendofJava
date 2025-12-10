@@ -98,6 +98,8 @@ public class Jogador extends Entidade{
 
     public void atualiza() {
 
+        pj.Eventos.checaEvento();
+
         if (iT.enter) {
             if (!atacando) {
                 atacando = true;
@@ -110,6 +112,8 @@ public class Jogador extends Entidade{
         }
 
         else if (iT.cima || iT.baixo || iT.esquerda || iT.direita) {
+
+
 
             if (iT.cima){
                 direção = "cima";
@@ -136,7 +140,9 @@ public class Jogador extends Entidade{
             int monstroIndex = pj.cColisao.checaEntidade(this,pj.monstro);
             contatoMonstro(monstroIndex);
 
-            pj.Eventos.checaEvento();
+
+
+
 
             if(!colisaoLigada) {
                 switch(direção) {
@@ -165,6 +171,7 @@ public class Jogador extends Entidade{
             pj.gameState = pj.gameOverState;
             pj.tocaEfeito(9);
         }
+        pj.inputT.enter = false;
     }
 
     public void setDefaultPositions(){
