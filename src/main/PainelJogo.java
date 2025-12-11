@@ -20,7 +20,7 @@ public class  PainelJogo extends JPanel implements Runnable{
     public int tamanhoMaximoCol = 16;
     public int tamanhoMaximoLin = 12;
     public final int mapaMax = 10;
-    public int mapaAtual = 0;
+    public int mapaAtual = 3;
 
     public int larguraTela = tamanhoTile * tamanhoMaximoCol;
     public int alturaTela = tamanhoTile * tamanhoMaximoLin;

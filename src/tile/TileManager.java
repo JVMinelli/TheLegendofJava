@@ -29,6 +29,7 @@ public class TileManager {
         carregaMapa("/maps/DESERTO.txt", 1);
         carregaMapa("/maps/indoor01.txt", 2);
         carregaMapa("/maps/PANTANO.txt", 3);
+        carregaMapa("/maps/CASTELO.txt", 4);
     }
 
     public void getTileImage() {

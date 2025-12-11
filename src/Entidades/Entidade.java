@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Random;
 
 
 public class Entidade {
@@ -30,7 +31,7 @@ public class Entidade {
     int indexDialogo = 0;
     public boolean colisaoLigada = false;
     public boolean invencivel = false;
-    boolean atacando = false;
+    public boolean atacando = false;
     public boolean vivo = true;
     public boolean morto = false;
     boolean barraVidaOn = false;
@@ -48,6 +49,8 @@ public class Entidade {
     public int vida;
     public int tipo;
     public int Vel;
+    public int duracaoAcao1;
+    public int duracaoAcao2;
 
 
     public Entidade (PainelJogo pj){
@@ -63,6 +66,116 @@ public class Entidade {
 
     public void ReacaoDano(){
         invencivel = true;
+    }
+    public void atacando() {
+        contaSprite++;
+        if (contaSprite <= duracaoAcao1) {
+            numSprite=1;
+        }
+        if (contaSprite >duracaoAcao1 && contaSprite <= duracaoAcao2) {
+            numSprite = 2;
+
+            int mundoXAtual = mundox;
+            int mundoYAtual = mundoy;
+            int areaSolidaWidth = areaSolida.width;
+            int areaSolidaHeight = areaSolida.height;
+
+            switch(direção) {
+                case "cima":
+                    mundoy-=areaAtaque.height;
+                    break;
+                case "baixo":
+                    mundoy+=areaAtaque.height;
+                    break;
+                case "esquerda":
+                    mundox-=areaAtaque.width;
+                    break;
+                case "direita":
+                    mundox+=areaAtaque.width;
+                    break;
+            }
+            areaSolida.width = areaAtaque.width;
+            areaSolida.height = areaAtaque.height;
+
+            if (tipo == 2) {
+
+
+            }
+            else {
+                int monsterIndex = pj.cColisao.checaEntidade(this, pj.monstro);
+                pj.jogador.danoMonstro(monsterIndex);
+            }
+
+
+
+            mundox=mundoXAtual;
+            mundoy=mundoYAtual;
+            areaSolida.width = areaSolidaWidth;
+            areaSolida.height = areaSolidaHeight;
+        }
+
+        if (contaSprite >duracaoAcao2){
+            numSprite = 1;
+            contaSprite = 0;
+            atacando = false;
+        }
+    }
+
+    public int getCentroX() {
+        int centroX = mundox + cima1.getWidth()/2;
+        return centroX;
+    }
+    public int getCentroY() {
+        int centroY = mundoy + cima1.getHeight()/2;
+        return centroY;
+    }
+    public int getDistanciaX(Entidade alvo) {
+        int distanciaX = Math.abs(getCentroX() - alvo.getCentroX());
+        return distanciaX;
+    }
+    public int getDistanciaY(Entidade alvo) {
+        int distanciaY = Math.abs(getCentroY() - alvo.getCentroY());
+        return distanciaY;
+    }
+
+
+    public void checaAtaqueouNao(int rate, int reto, int horizontal) {
+        boolean alvoPerto = false;
+        int DisX = getDistanciaX(pj.jogador);
+        int DisY = getDistanciaY(pj.jogador);
+
+        switch (direção) {
+            case "cima":
+                if (pj.jogador.getCentroY() < getCentroY() && DisY < reto && DisX < horizontal) {
+                    alvoPerto = true;
+                }
+                break;
+            case "baixo":
+                if (pj.jogador.getCentroY() > getCentroY() && DisY < reto && DisX < horizontal) {
+                    alvoPerto = true;
+                }
+                break;
+            case "esquerda":
+                if (pj.jogador.getCentroX() < getCentroX() && DisX < reto && DisY < horizontal) {
+                    alvoPerto = true;
+                }
+                break;
+            case "direita":
+                if (pj.jogador.getCentroX() > getCentroX() && DisX < reto && DisY < horizontal) {
+                    alvoPerto = true;
+                }
+                break;
+            }
+
+            if (alvoPerto == true) {
+                int i = new Random().nextInt(rate);
+                if (i==0) {
+                    atacando = true;
+                    numSprite = 0;
+                    contaSprite = 0;
+                }
+            }
+
     }
 
     public void checaDrop(){
@@ -95,9 +208,11 @@ public class Entidade {
                 pj.jogador.invencivel = true;
             }
         }
+        if (atacando==true) {
+            atacando();
+        }
 
-
-        if(colisaoLigada == false) {
+        else if(colisaoLigada == false) {
 
             switch(direção) {
                 case "cima":
@@ -113,18 +228,19 @@ public class Entidade {
                     mundox += Vel;
                     break;
             }
+            contaSprite++;
+            if (contaSprite > 10) {
+                if (numSprite == 1) {
+                    numSprite = 2;
+                }
+                else if (numSprite == 2) {
+                    numSprite = 1;
+                }
+                contaSprite = 0;
+            }
         }
 
-        contaSprite++;
-        if (contaSprite > 10) {
-            if (numSprite == 1) {
-                numSprite = 2;
-            }
-            else if (numSprite == 2) {
-                numSprite = 1;
-            }
-            contaSprite = 0;
-        }
+
         if (invencivel == true) {
             invencivelCounter++;
             if (invencivelCounter > 40){
@@ -140,6 +256,32 @@ public class Entidade {
         }
         pj.iu.dialogoAtual = dialogos[indexDialogo];
         indexDialogo++;
+    }
+
+    public void seguePlayer(int intervalo) {
+
+        actionLockCounter++;
+
+        if (actionLockCounter > intervalo) {
+            if (getDistanciaX(pj.jogador) > getDistanciaY(pj.jogador)) {
+                if (pj.jogador.getCentroX() < getCentroX()) {
+                    direção = "esquerda";
+                }
+                else {
+                    direção = "direita";
+                }
+
+            }
+            else if (getDistanciaX(pj.jogador) < getDistanciaY(pj.jogador)) {
+                if (pj.jogador.getCentroY() < getCentroY()) {
+                    direção = "cima";
+                }
+                else {
+                    direção = "baixo";
+                }
+            }
+            actionLockCounter = 0;
+        }
     }
 
 
@@ -161,44 +303,94 @@ public class Entidade {
         int telaX = mundox - pj.jogador.mundox + pj.jogador.telax;
         int telaY = mundoy - pj.jogador.mundoy + pj.jogador.telay;
 
-        if (mundox + pj.tamanhoTile > pj.jogador.mundox - pj.jogador.telax &&
+        if (mundox + pj.tamanhoTile*5 > pj.jogador.mundox - pj.jogador.telax &&
                 mundox - pj.tamanhoTile < pj.jogador.mundox + pj.jogador.telax &&
-                mundoy + pj.tamanhoTile > pj.jogador.mundoy - pj.jogador.telay &&
+                mundoy + pj.tamanhoTile*5 > pj.jogador.mundoy - pj.jogador.telay &&
                 mundoy - pj.tamanhoTile < pj.jogador.mundoy + pj.jogador.telay) {
-            switch (direção) {
+            int tempTelaX =telaX;
+            int tempTelaY = telaY;
+
+            switch(direção) {
                 case "cima":
-                    if (numSprite == 1) {
-                        imagem = cima1;
+                    if (atacando == false) {
+                        if(numSprite == 1){
+                            imagem = cima1;
+                        }
+                        if(numSprite == 2){
+                            imagem = cima2;
+                        }
                     }
-                    if (numSprite == 2) {
-                        imagem = cima2;
-                    }
-                    break;
-                case "baixo":
-                    if (numSprite == 1) {
-                        imagem = baixo1;
-                    }
-                    if (numSprite == 2) {
-                        imagem = baixo2;
-                    }
-                    break;
-                case "esquerda":
-                    if (numSprite == 1) {
-                        imagem = esquerda1;
-                    }
-                    if (numSprite == 2) {
-                        imagem = esquerda2;
-                    }
-                    break;
-                case "direita":
-                    if (numSprite == 1) {
-                        imagem = direita1;
-                    }
-                    if (numSprite == 2) {
-                        imagem = direita2;
+                    if (atacando == true) {
+                        tempTelaY = telaY - cima1.getHeight();
+                        if(numSprite == 1){
+                            imagem = cimaAtaque;
+                        }
+                        if(numSprite == 2){
+                            imagem = cima1Ataque;
+
+                        }
                     }
                     break;
 
+                case "baixo":
+                    if(atacando == false) {
+                        if(numSprite == 1){
+                            imagem = baixo1;
+                        }
+                        if(numSprite == 2){
+                            imagem = baixo2;
+                        }
+                    }
+                    if(atacando==true){
+                        if(numSprite == 1){
+                            imagem = baixoAtaque;
+                        }
+                        if(numSprite == 2){
+                            imagem = baixo1Ataque;
+
+                        }
+                    }
+                    break;
+
+                case "esquerda":
+                    if (atacando == false) {
+                        if(numSprite == 1){
+                            imagem = esquerda1;
+                        }
+                        if(numSprite == 2){
+                            imagem = esquerda2;
+                        }
+                    }
+                    if (atacando == true){
+                        tempTelaX = telaX - esquerda1.getWidth();
+                        if(numSprite == 1){
+                            imagem = esquerdaAtaque;
+                        }
+                        if(numSprite == 2){
+                            imagem = esquerda1Ataque;
+
+                        }
+                    }
+                    break;
+                case "direita":
+                    if (atacando == false) {
+                        if(numSprite == 1){
+                            imagem = direita1;
+                        }
+                        if(numSprite == 2){
+                            imagem = direita2;
+                        }
+                    }
+                    if (atacando == true){
+                        if(numSprite == 1){
+                            imagem = direitaAtaque;
+                        }
+                        if(numSprite == 2){
+                            imagem = direita1Ataque;
+
+                        }
+                    }
+                    break;
             }
             // Barra de vida monstros   
             if (this.tipo == 2 && barraVidaOn == true) {
@@ -226,7 +418,7 @@ public class Entidade {
                         mortoAnimacao(g2);
                     }
                 }
-                g2.drawImage(imagem, telaX, telaY, pj.tamanhoTile, pj.tamanhoTile, null);
+                g2.drawImage(imagem, tempTelaX, tempTelaY, null);
 
                 mudarAlpha(g2, 1f);
             }

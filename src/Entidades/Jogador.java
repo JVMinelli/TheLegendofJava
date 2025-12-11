@@ -43,6 +43,8 @@ public class Jogador extends Entidade{
 
         areaAtaque.width = 36;
         areaAtaque.height = 36;
+        duracaoAcao1 = 5;
+        duracaoAcao2 = 25;
 
         defineValoresPadrao();
         getImagemJogador();
@@ -185,51 +187,7 @@ public class Jogador extends Entidade{
         invencivel = false;
     }
 
-    public void atacando() {
-        contaSprite++;
-        if (contaSprite <= 5) {
-            numSprite=1;
-        }
-        if (contaSprite >5 && contaSprite <= 25) {
-            numSprite = 2;
 
-            int mundoXAtual = mundox;
-            int mundoYAtual = mundoy;
-            int areaSolidaWidth = areaSolida.width;
-            int areaSolidaHeight = areaSolida.height;
-
-            switch(direção) {
-                case "cima":
-                    mundoy-=areaAtaque.height;
-                break;
-                case "baixo":
-                    mundoy+=areaAtaque.height;
-                break;
-                case "esquerda":
-                    mundox-=areaAtaque.width;
-                break;
-                case "direita":
-                    mundox+=areaAtaque.width;
-                break;
-            }
-            areaSolida.width = areaAtaque.width;
-            areaSolida.height = areaAtaque.height;
-
-            int monsterIndex = pj.cColisao.checaEntidade(this, pj.monstro);
-            danoMonstro(monsterIndex);
-
-            mundox=mundoXAtual;
-            mundoy=mundoYAtual;
-            areaSolida.width = areaSolidaWidth;
-            areaSolida.height = areaSolidaHeight;
-        }
-
-        if (contaSprite >25){
-            numSprite = 1;
-            contaSprite = 0;
-            atacando = false;
-        }
-    }
 
     public void pegarObjeto(int i) {
         // 999 é o "nenhum objeto"

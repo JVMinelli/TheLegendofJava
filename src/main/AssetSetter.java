@@ -1,10 +1,8 @@
 package main;
 
 import Entidades.*;
-import monstro.mon_slimeBravoChave;
-import monstro.mon_slimeBravoCristal;
+import monstro.*;
 import objts.*;
-import monstro.mon_slimeverde;
 
 public class AssetSetter {
     PainelJogo PJ;
@@ -44,6 +42,23 @@ public class AssetSetter {
         PJ.obj[numMapa][0] = new OBJ_cristaldourado(PJ);
         PJ.obj[numMapa][0].mundox = 26 * PJ.tamanhoTile;
         PJ.obj[numMapa][0].mundoy = 1 * PJ.tamanhoTile;
+
+        numMapa=4;
+        PJ.obj[numMapa][0] = new OBJ_chave(PJ);
+        PJ.obj[numMapa][0].mundox = 48 * PJ.tamanhoTile;
+        PJ.obj[numMapa][0].mundoy = 37 * PJ.tamanhoTile;
+
+        PJ.obj[numMapa][1] = new OBJ_chave(PJ);
+        PJ.obj[numMapa][1].mundox = 1 * PJ.tamanhoTile;
+        PJ.obj[numMapa][1].mundoy = 37 * PJ.tamanhoTile;
+
+        PJ.obj[numMapa][2] = new OBJ_porta(PJ);
+        PJ.obj[numMapa][2].mundox = 26 * PJ.tamanhoTile;
+        PJ.obj[numMapa][2].mundoy = 36 * PJ.tamanhoTile;
+
+        PJ.obj[numMapa][3] = new OBJ_porta(PJ);
+        PJ.obj[numMapa][3].mundox = 26 * PJ.tamanhoTile;
+        PJ.obj[numMapa][3].mundoy = 32 * PJ.tamanhoTile;
     }
 
     public void setNPC() {
@@ -119,6 +134,27 @@ public class AssetSetter {
         PJ.monstro[numMapa][1] = new mon_slimeBravoChave(PJ);
         PJ.monstro[numMapa][1].mundox = PJ.tamanhoTile*23;
         PJ.monstro[numMapa][1].mundoy = PJ.tamanhoTile*18;
+
+        numMapa=4;
+        PJ.monstro[numMapa][0] = new mon_Voador(PJ);
+        PJ.monstro[numMapa][0].mundox = PJ.tamanhoTile*41;
+        PJ.monstro[numMapa][0].mundoy = PJ.tamanhoTile*35;
+
+        PJ.monstro[numMapa][1] = new mon_Voador(PJ);
+        PJ.monstro[numMapa][1].mundox = PJ.tamanhoTile*45;
+        PJ.monstro[numMapa][1].mundoy = PJ.tamanhoTile*35;
+
+        PJ.monstro[numMapa][2] = new mon_Voador(PJ);
+        PJ.monstro[numMapa][2].mundox = PJ.tamanhoTile*44;
+        PJ.monstro[numMapa][2].mundoy = PJ.tamanhoTile*38;
+
+        PJ.monstro[numMapa][3] = new mon_Boss(PJ);
+        PJ.monstro[numMapa][3].mundox = PJ.tamanhoTile*27;
+        PJ.monstro[numMapa][3].mundoy = PJ.tamanhoTile*2;
+
+
+
+
     }
 }
 
