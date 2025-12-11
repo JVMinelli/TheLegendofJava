@@ -43,13 +43,13 @@ public class AssetSetter {
         PJ.obj[numMapa][1].mundox = 1 * PJ.tamanhoTile;
         PJ.obj[numMapa][1].mundoy = 37 * PJ.tamanhoTile;
 
-        PJ.obj[numMapa][2] = new OBJ_porta(PJ);
-        PJ.obj[numMapa][2].mundox = 26 * PJ.tamanhoTile;
-        PJ.obj[numMapa][2].mundoy = 36 * PJ.tamanhoTile;
+        //PJ.obj[numMapa][2] = new OBJ_porta(PJ);
+        //PJ.obj[numMapa][2].mundox = 26 * PJ.tamanhoTile;
+        //PJ.obj[numMapa][2].mundoy = 36 * PJ.tamanhoTile;
 
-        PJ.obj[numMapa][3] = new OBJ_porta(PJ);
-        PJ.obj[numMapa][3].mundox = 26 * PJ.tamanhoTile;
-        PJ.obj[numMapa][3].mundoy = 32 * PJ.tamanhoTile;
+        //PJ.obj[numMapa][3] = new OBJ_porta(PJ);
+        //PJ.obj[numMapa][3].mundox = 26 * PJ.tamanhoTile;
+        //PJ.obj[numMapa][3].mundoy = 32 * PJ.tamanhoTile;
 
         PJ.obj[numMapa][4] = new OBJ_bota(PJ);
         PJ.obj[numMapa][4].mundox = 7 * PJ.tamanhoTile;

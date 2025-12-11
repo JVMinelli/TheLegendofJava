@@ -33,8 +33,8 @@ public class mon_Boss extends Entidade {
         areaSolida.height = tamanho - 48;
         areaSolidaDefaultX = areaSolida.x;
         areaSolidaDefaultY = areaSolida.y;
-        areaAtaque.width = 170;
-        areaAtaque.height = 170;
+        areaAtaque.width = pj.tamanhoTile*3;
+        areaAtaque.height = pj.tamanhoTile*3;
         duracaoAcao1 = 45;
         duracaoAcao2 = 85;
 

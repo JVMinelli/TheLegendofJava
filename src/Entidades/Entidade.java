@@ -83,52 +83,70 @@ public class Entidade {
     }
     public void atacando() {
         contaSprite++;
+
         if (contaSprite <= duracaoAcao1) {
-            numSprite=1;
+            numSprite = 1;
+            return;
         }
-        if (contaSprite >duracaoAcao1 && contaSprite <= duracaoAcao2) {
+
+        if (contaSprite > duracaoAcao1 && contaSprite <= duracaoAcao2) {
             numSprite = 2;
 
-            int mundoXAtual = mundox;
-            int mundoYAtual = mundoy;
-            int areaSolidaWidth = areaSolida.width;
-            int areaSolidaHeight = areaSolida.height;
 
-            switch(direção) {
-                case "cima":
-                    mundoy-=areaAtaque.height;
-                    break;
-                case "baixo":
-                    mundoy+=areaAtaque.height;
-                    break;
-                case "esquerda":
-                    mundox-=areaAtaque.width;
-                    break;
-                case "direita":
-                    mundox+=areaAtaque.width;
-                    break;
-            }
+            int oldMundoX = mundox;
+            int oldMundoY = mundoy;
+            int oldAreaX = areaSolida.x;
+            int oldAreaY = areaSolida.y;
+            int oldAreaW = areaSolida.width;
+            int oldAreaH = areaSolida.height;
+
+
             areaSolida.width = areaAtaque.width;
             areaSolida.height = areaAtaque.height;
 
-            if (tipo == 2) {
+            switch (direção) {
+                case "cima":
 
-
+                    areaSolida.x = areaSolidaDefaultX;
+                    areaSolida.y = areaSolidaDefaultY - areaSolida.height;
+                    break;
+                case "baixo":
+                    areaSolida.x = areaSolidaDefaultX;
+                    areaSolida.y = areaSolidaDefaultY + pj.tamanhoTile;
+                    break;
+                case "esquerda":
+                    areaSolida.x = areaSolidaDefaultX - areaSolida.width;
+                    areaSolida.y = areaSolidaDefaultY + (pj.tamanhoTile / 2) - (areaSolida.height / 2);
+                    break;
+                case "direita":
+                    areaSolida.x = areaSolidaDefaultX + pj.tamanhoTile;
+                    areaSolida.y = areaSolidaDefaultY + (pj.tamanhoTile / 2) - (areaSolida.height / 2);
+                    break;
             }
-            else {
-                int monsterIndex = pj.cColisao.checaEntidade(this, pj.monstro);
-                pj.jogador.danoMonstro(monsterIndex);
+
+
+            boolean atingiuJogador = pj.cColisao.checaPlayer(this);
+
+            if (atingiuJogador) {
+
+                if (!pj.jogador.invencivel) {
+                    pj.tocaEfeito(6);
+                    pj.jogador.vida -= 1;
+                    pj.jogador.invencivel = true;
+
+                }
             }
 
 
-
-            mundox=mundoXAtual;
-            mundoy=mundoYAtual;
-            areaSolida.width = areaSolidaWidth;
-            areaSolida.height = areaSolidaHeight;
+            mundox = oldMundoX;
+            mundoy = oldMundoY;
+            areaSolida.x = oldAreaX;
+            areaSolida.y = oldAreaY;
+            areaSolida.width = oldAreaW;
+            areaSolida.height = oldAreaH;
         }
 
-        if (contaSprite >duracaoAcao2){
+        if (contaSprite > duracaoAcao2) {
             numSprite = 1;
             contaSprite = 0;
             atacando = false;
