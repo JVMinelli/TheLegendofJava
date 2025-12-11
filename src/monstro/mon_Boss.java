@@ -2,13 +2,15 @@ package monstro;
 
 import Entidades.Entidade;
 import main.PainelJogo;
+import objts.OBJ_chave;
+import objts.OBJ_cristalazul;
 
 import java.util.Random;
 
 public class mon_Boss extends Entidade {
 
     PainelJogo pj;
-    public static final String nomeMon = "Boss";
+    public static final String nomeMon = "Golem";
 
     public mon_Boss(PainelJogo pj) {
         super(pj);
@@ -17,9 +19,11 @@ public class mon_Boss extends Entidade {
 
         tipo = 2;
         nome = "Boss";
-        Vel = 4;
-        vidaMax=40;
+        Vel = 2;
+        vidaMax=10;
         vida=vidaMax;
+        boss = true;
+        dormir = true;
 
         int tamanho = pj.tamanhoTile*5;
 
@@ -36,6 +40,7 @@ public class mon_Boss extends Entidade {
 
         getImage();
         getImagemAtaque();
+        setDialogo();
     }
     public void getImage() {
 
@@ -60,6 +65,10 @@ public class mon_Boss extends Entidade {
         esquerda1Ataque = setup("/monster/golem-esquerda-atacando-2", pj.tamanhoTile*i*2, pj.tamanhoTile*i);
         direitaAtaque = setup("/monster/golem-direita-atacando-1", pj.tamanhoTile*i*2, pj.tamanhoTile*i);
         direita1Ataque = setup("/monster/golem-direita-atacando-2", pj.tamanhoTile*i*2, pj.tamanhoTile*i);
+    }
+    public void setDialogo() {
+
+        dialogos[0] = "Você nunca terá o cristal azul Herói!";
     }
     public void setAcao() {
         actionLockCounter++;
@@ -95,6 +104,11 @@ public class mon_Boss extends Entidade {
         if (atacando == false) {
             checaAtaqueouNao(25, pj.tamanhoTile*10, pj.tamanhoTile*5);
         }
+
+    }
+    public void checaDrop(){
+
+        dropaItem(new OBJ_cristalazul(pj));
 
     }
 }

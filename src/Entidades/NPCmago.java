@@ -13,7 +13,7 @@ public class NPCmago extends Entidade{
         setDialogo();
     }
     public void setDialogo() {
-        dialogos[0] = "Herói! Que bom que acordou!/nA cidade foi tomada por monstros e precisa da sua ajuda!/nSiga o caminho para entrar na cidade.";
+        dialogos[0] = "Herói! Que bom que acordou!/nA cidade foi tomada por monstros e precisa da sua ajuda!/nSe você conseguir juntar 3 cristais,/npodemos acabar com os monstros de uma vez por todas!";
     }
     public void getImagem() {
         baixo1 = setup("/npc/NPCmago", pj.tamanhoTile, pj.tamanhoTile);

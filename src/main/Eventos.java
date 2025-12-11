@@ -65,13 +65,29 @@ public class Eventos {
             if(hit(3,23,36,"any") == true || hit(3,24,36,"any")) {teleport(4,26,48);}
             if(hit(4,26,49, "any") == true) {teleport(3,23,37);}
 
+            if (hit(4,26,29,"any") == true) {boss();}
+
             if(hit(1,29,20,"cima") == true || hit(1,30,20,"cima") || hit(1,31,20,"cima") || hit(1,32,20,"cima") || hit(1,33,20,"cima")
             || hit(1,34,20,"cima") || hit(1,28,19,"direita") || hit(1,28,18,"direita") || hit(1,28,17,"direita") || hit(1,28,16,"direita") || hit(1,28,15,"direita")
             || hit(1,29,14,"baixo") || hit(1,30,14,"baixo") || hit(1,31,14,"baixo") || hit(1,32,14,"baixo") || hit(1,33,14,"baixo") || hit(1,34,14,"baixo")
             || hit(1,35,15,"esquerda") || hit(1,35,16,"esquerda") || hit(1,35,17,"esquerda") || hit(1,35,18,"esquerda") || hit(1,35,19,"esquerda"))
             {piscinaCura(pj.dialogoState);}
+
+            if (hit(4,41,25,"direita") == true || hit(4,42,24,"baixo") == true || hit(4,42,26,"cima") == true || hit(4,43,25,"esquerda") == true) {
+                piscinaCura(pj.dialogoState);
+            }
+
+
         }
 
+    }
+
+    public void boss (){
+
+        if (pj.lutaBoss == false) {
+            pj.gameState= pj.cutsceneState;
+            pj.csManager.numCena = pj.csManager.boss;
+        }
     }
 
     public boolean hit(int mapa, int coluna, int linha, String reqDirection) {

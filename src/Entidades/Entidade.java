@@ -21,8 +21,12 @@ public class Entidade {
     public Rectangle areaAtaque = new Rectangle(0,0,0,0);
     public int areaSolidaDefaultX, areaSolidaDefaultY;
     public boolean colisao = false;
+    public boolean boss;
+    public boolean dormir = false;
+    public boolean temp = false;
+    public boolean desenhar = true;
 
-    String dialogos[] = new String[20];
+    public String[] dialogos = new String[20];
 
     //estado
     public int mundox,mundoy;
@@ -34,7 +38,7 @@ public class Entidade {
     public boolean atacando = false;
     public boolean vivo = true;
     public boolean morto = false;
-    boolean barraVidaOn = false;
+    public boolean barraVidaOn = false;
 
     //contadores
     public int contaSprite = 0;
@@ -47,7 +51,7 @@ public class Entidade {
     public String nome;
     public int vidaMax;
     public int vida;
-    public int tipo;
+    public int tipo; // 4 = boss
     public int Vel;
     public int duracaoAcao1;
     public int duracaoAcao2;
@@ -59,6 +63,16 @@ public class Entidade {
         areaSolida = new Rectangle(0,0,pj.tamanhoTile,pj.tamanhoTile);
         areaSolidaDefaultX = areaSolida.x;
         areaSolidaDefaultY = areaSolida.y;
+    }
+
+    public int getTelaX() {
+        int telaX = mundox - pj.jogador.mundox + pj.jogador.telax;
+        return telaX;
+    }
+
+    public int getTelaY() {
+        int telaY = mundoy - pj.jogador.mundoy + pj.jogador.telay;
+        return telaY;
     }
 
     public void setAcao(){
@@ -193,61 +207,66 @@ public class Entidade {
     }
 
     public void atualiza(){
-        setAcao();
-        colisaoLigada = false;
-        pj.cColisao.checaTile(this);
-        pj.cColisao.checaObjeto(this, false);
-        pj.cColisao.checaEntidade(this, pj.npc);
-        pj.cColisao.checaEntidade(this,pj.monstro);
-        boolean contato = pj.cColisao.checaPlayer(this);
 
-        if(this.tipo == 2 && contato == true) {
-            if (pj.jogador.invencivel == false) {
-                pj.tocaEfeito(6);
-                pj.jogador.vida -= 1;
-                pj.jogador.invencivel = true;
-            }
-        }
-        if (atacando==true) {
-            atacando();
-        }
+        if (dormir == false ) {
 
-        else if(colisaoLigada == false) {
+            setAcao();
+            colisaoLigada = false;
+            pj.cColisao.checaTile(this);
+            pj.cColisao.checaObjeto(this, false);
+            pj.cColisao.checaEntidade(this, pj.npc);
+            pj.cColisao.checaEntidade(this,pj.monstro);
+            boolean contato = pj.cColisao.checaPlayer(this);
 
-            switch(direção) {
-                case "cima":
-                    mundoy -= Vel;
-                    break;
-                case "baixo":
-                    mundoy += Vel;
-                    break;
-                case "esquerda":
-                    mundox -= Vel;
-                    break;
-                case "direita":
-                    mundox += Vel;
-                    break;
-            }
-            contaSprite++;
-            if (contaSprite > 10) {
-                if (numSprite == 1) {
-                    numSprite = 2;
+            if(this.tipo == 2 && contato == true) {
+                if (pj.jogador.invencivel == false) {
+                    pj.tocaEfeito(6);
+                    pj.jogador.vida -= 1;
+                    pj.jogador.invencivel = true;
                 }
-                else if (numSprite == 2) {
-                    numSprite = 1;
+            }
+            if (atacando==true) {
+                atacando();
+            }
+
+            else if(colisaoLigada == false) {
+
+                switch(direção) {
+                    case "cima":
+                        mundoy -= Vel;
+                        break;
+                    case "baixo":
+                        mundoy += Vel;
+                        break;
+                    case "esquerda":
+                        mundox -= Vel;
+                        break;
+                    case "direita":
+                        mundox += Vel;
+                        break;
                 }
-                contaSprite = 0;
+                contaSprite++;
+                if (contaSprite > 10) {
+                    if (numSprite == 1) {
+                        numSprite = 2;
+                    }
+                    else if (numSprite == 2) {
+                        numSprite = 1;
+                    }
+                    contaSprite = 0;
+                }
+            }
+
+
+            if (invencivel == true) {
+                invencivelCounter++;
+                if (invencivelCounter > 40){
+                    invencivel = false;
+                    invencivelCounter = 0;
+                }
             }
         }
 
-
-        if (invencivel == true) {
-            invencivelCounter++;
-            if (invencivelCounter > 40){
-                invencivel = false;
-                invencivelCounter = 0;
-            }
-        }
     }
 
     public void fala() {
@@ -298,17 +317,26 @@ public class Entidade {
         return imagem;
     }
 
-    public void draw(Graphics2D g2) {
-        BufferedImage imagem = null;
-        int telaX = mundox - pj.jogador.mundox + pj.jogador.telax;
-        int telaY = mundoy - pj.jogador.mundoy + pj.jogador.telay;
-
+    public boolean inCamera() {
+        boolean inCamera = false;
         if (mundox + pj.tamanhoTile*5 > pj.jogador.mundox - pj.jogador.telax &&
                 mundox - pj.tamanhoTile < pj.jogador.mundox + pj.jogador.telax &&
                 mundoy + pj.tamanhoTile*5 > pj.jogador.mundoy - pj.jogador.telay &&
                 mundoy - pj.tamanhoTile < pj.jogador.mundoy + pj.jogador.telay) {
-            int tempTelaX =telaX;
-            int tempTelaY = telaY;
+
+            inCamera = true;
+        }
+        return inCamera;
+
+    }
+
+    public void draw(Graphics2D g2) {
+        BufferedImage imagem = null;
+
+
+        if (inCamera() == true) {
+            int tempTelaX =getTelaX();
+            int tempTelaY = getTelaY();
 
             switch(direção) {
                 case "cima":
@@ -321,7 +349,7 @@ public class Entidade {
                         }
                     }
                     if (atacando == true) {
-                        tempTelaY = telaY - cima1.getHeight();
+                        tempTelaY = getTelaY() - cima1.getHeight();
                         if(numSprite == 1){
                             imagem = cimaAtaque;
                         }
@@ -362,7 +390,7 @@ public class Entidade {
                         }
                     }
                     if (atacando == true){
-                        tempTelaX = telaX - esquerda1.getWidth();
+                        tempTelaX = getTelaX() - esquerda1.getWidth();
                         if(numSprite == 1){
                             imagem = esquerdaAtaque;
                         }
@@ -393,20 +421,8 @@ public class Entidade {
                     break;
             }
             // Barra de vida monstros   
-            if (this.tipo == 2 && barraVidaOn == true) {
-                double umaEscala = (double) pj.tamanhoTile / vidaMax;
-                double BarraVida = umaEscala * vida;
-                g2.setColor(new Color(35, 35, 35));
-                g2.fillRect(telaX - 1, telaY - 16, pj.tamanhoTile + 2, 12);
 
-                g2.setColor(new Color(255, 0, 30));
-                g2.fillRect(telaX, telaY - 15, (int) BarraVida, 10);
-                barraVidaCounter++;
-                if (barraVidaCounter > 600) {
-                    barraVidaOn = false;
-                    barraVidaCounter = 0;
-                }
-            }
+
 
                 if (this.tipo == 2) {
                     if (invencivel == true) {
@@ -459,6 +475,7 @@ public class Entidade {
     public void mudarAlpha(Graphics2D g2, float alpha) {
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
     }
+
 }
 
 

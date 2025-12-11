@@ -13,13 +13,7 @@ public class AssetSetter {
 
     public void setObjeto() {
         int numMapa = 0;
-        PJ.obj[numMapa][0] = new OBJ_chave(PJ);
-        PJ.obj[numMapa][0].mundox = 19 * PJ.tamanhoTile;
-        PJ.obj[numMapa][0].mundoy = 21 * PJ.tamanhoTile;
 
-        PJ.obj[numMapa][1] = new OBJ_chave(PJ);
-        PJ.obj[numMapa][1].mundox = 47 * PJ.tamanhoTile;
-        PJ.obj[numMapa][1].mundoy = 25 * PJ.tamanhoTile;
 
         PJ.obj[numMapa][3] = new OBJ_porta(PJ);
         PJ.obj[numMapa][3].mundox = 40 * PJ.tamanhoTile;
@@ -29,9 +23,6 @@ public class AssetSetter {
         PJ.obj[numMapa][4].mundox = 44 * PJ.tamanhoTile;
         PJ.obj[numMapa][4].mundoy = 27 * PJ.tamanhoTile;
 
-        PJ.obj[numMapa][5] = new OBJ_cogumelo(PJ);
-        PJ.obj[numMapa][5].mundox = 46 * PJ.tamanhoTile;
-        PJ.obj[numMapa][5].mundoy = 24 * PJ.tamanhoTile;
 
         PJ.obj[numMapa][6] = new OBJ_fogueira(PJ);
         PJ.obj[numMapa][6].mundox = 20 * PJ.tamanhoTile;
@@ -59,6 +50,10 @@ public class AssetSetter {
         PJ.obj[numMapa][3] = new OBJ_porta(PJ);
         PJ.obj[numMapa][3].mundox = 26 * PJ.tamanhoTile;
         PJ.obj[numMapa][3].mundoy = 32 * PJ.tamanhoTile;
+
+        PJ.obj[numMapa][4] = new OBJ_bota(PJ);
+        PJ.obj[numMapa][4].mundox = 7 * PJ.tamanhoTile;
+        PJ.obj[numMapa][4].mundoy = 25 * PJ.tamanhoTile;
     }
 
     public void setNPC() {
@@ -108,6 +103,13 @@ public class AssetSetter {
         PJ.npc[numMapa][4] = new NPCcristaldeserto(PJ);
         PJ.npc[numMapa][4].mundox = PJ.tamanhoTile*25;
         PJ.npc[numMapa][4].mundoy = PJ.tamanhoTile*1;
+
+        numMapa=3;
+
+        PJ.npc[numMapa][0] = new NPCpantano(PJ);
+        PJ.npc[numMapa][0].mundox = PJ.tamanhoTile*27;
+        PJ.npc[numMapa][0].mundoy = PJ.tamanhoTile*41;
+
     }
 
     public void setMonstro() {
@@ -149,8 +151,20 @@ public class AssetSetter {
         PJ.monstro[numMapa][2].mundoy = PJ.tamanhoTile*38;
 
         PJ.monstro[numMapa][3] = new mon_Boss(PJ);
-        PJ.monstro[numMapa][3].mundox = PJ.tamanhoTile*27;
-        PJ.monstro[numMapa][3].mundoy = PJ.tamanhoTile*2;
+        PJ.monstro[numMapa][3].mundox = PJ.tamanhoTile*26;
+        PJ.monstro[numMapa][3].mundoy = PJ.tamanhoTile*8;
+
+        PJ.monstro[numMapa][4] = new mon_slimeverde(PJ);
+        PJ.monstro[numMapa][4].mundox = PJ.tamanhoTile*4;
+        PJ.monstro[numMapa][4].mundoy = PJ.tamanhoTile*34;
+
+        PJ.monstro[numMapa][5] = new mon_slimeverde(PJ);
+        PJ.monstro[numMapa][5].mundox = PJ.tamanhoTile*12;
+        PJ.monstro[numMapa][5].mundoy = PJ.tamanhoTile*34;
+
+        PJ.monstro[numMapa][6] = new mon_slimeverde(PJ);
+        PJ.monstro[numMapa][6].mundox = PJ.tamanhoTile*7;
+        PJ.monstro[numMapa][6].mundoy = PJ.tamanhoTile*40;
 
 
 

@@ -54,7 +54,7 @@ public class Jogador extends Entidade{
 
         mundox=pj.tamanhoTile*20;
         mundoy=pj.tamanhoTile*43;
-        Vel=10;
+        Vel=4;
         direção = "baixo";
 
         vidaMax = 6;
@@ -236,6 +236,9 @@ public class Jogador extends Entidade{
                     pj.tocaEfeito(4);
                     temCristalAzul = true;
                     pj.obj[pj.mapaAtual][i] = null;
+                    pj.gameState = pj.cutsceneState;
+                    pj.csManager.numCena = pj.csManager.ending;
+
                     break;
 
                 case "Porta":
@@ -398,8 +401,10 @@ public class Jogador extends Entidade{
         if (invencivel == true) {
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
         }
+        if (desenhar == true) {
+            g2.drawImage(image, tempTelaX, tempTelaY, null);
+        }
 
-        g2.drawImage(image, tempTelaX, tempTelaY, null);
 
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
 

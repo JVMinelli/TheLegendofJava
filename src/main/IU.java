@@ -67,6 +67,7 @@ public class IU {
 
         if (pj.gameState == pj.playState) {
             drawVida();
+            drawVidaMonstro();
             drawCristais();
         }
         if (pj.gameState == pj.pauseState) {
@@ -188,6 +189,9 @@ public class IU {
         desenhaSubTela(x,y,largura,altura);
 
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN,20));
+
+        g2.setColor(Color.white);
+
         x += 30;
         y += pj.tamanhoTile;
 
@@ -256,5 +260,51 @@ public class IU {
         if (numComando == 1) {
             g2.drawString(">", x-40,y);
         }
+    }
+    public void drawVidaMonstro() {
+
+        for (int i = 0; i < pj.monstro[1].length; i++) {
+
+            Entidade monstro = pj.monstro[pj.mapaAtual][i];
+
+            if(monstro != null && monstro.inCamera() == true) {
+
+                if (monstro.barraVidaOn == true && monstro.boss == false) {
+                    double umaEscala = (double) pj.tamanhoTile / monstro.vidaMax;
+                    double BarraVida = umaEscala * monstro.vida;
+                    g2.setColor(new Color(35, 35, 35));
+                    g2.fillRect(monstro.getTelaX() - 1, monstro.getTelaY() - 16, pj.tamanhoTile + 2, 12);
+
+                    g2.setColor(new Color(255, 0, 30));
+                    g2.fillRect(monstro.getTelaX(), monstro.getTelaY() - 15, (int) BarraVida, 10);
+                    monstro.barraVidaCounter++;
+                    if (monstro.barraVidaCounter > 600) {
+                        monstro.barraVidaOn = false;
+                        monstro.barraVidaCounter = 0;
+                    }
+                }
+                else if (monstro.boss == true) {
+
+
+                    double umaEscala = (double) pj.tamanhoTile*8 / monstro.vidaMax;
+                    double BarraVida = umaEscala * monstro.vida;
+
+                    int x = pj.larguraTela/2 - pj.tamanhoTile*4;
+                    int y = pj.tamanhoTile * 10;
+
+                    g2.setColor(new Color(35, 35, 35));
+                    g2.fillRect(x - 1, y - 1, pj.tamanhoTile*8 + 2, 22);
+
+                    g2.setColor(new Color(255, 0, 30));
+                    g2.fillRect(x, y, (int) BarraVida, 20);
+
+                    g2.setFont(g2.getFont().deriveFont(Font.BOLD,24f));
+                    g2.setColor(Color.white);
+                    g2.drawString(monstro.nome, x+4, y-10);
+                }
+            }
+        }
+
+
     }
 }

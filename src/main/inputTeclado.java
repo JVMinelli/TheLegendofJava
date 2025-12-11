@@ -31,7 +31,7 @@ public class inputTeclado implements KeyListener {
         else if (pj.gameState == pj.pauseState) {
             pauseState(code);
         }
-        else if (pj.gameState == pj.dialogoState) {
+        else if (pj.gameState == pj.dialogoState || pj.gameState == pj.cutsceneState) {
             dialogoState(code);
         }
         else if (pj.gameState == pj.gameOverState) {

@@ -20,7 +20,7 @@ public class  PainelJogo extends JPanel implements Runnable{
     public int tamanhoMaximoCol = 16;
     public int tamanhoMaximoLin = 12;
     public final int mapaMax = 10;
-    public int mapaAtual = 3;
+    public int mapaAtual = 0;
 
     public int larguraTela = tamanhoTile * tamanhoMaximoCol;
     public int alturaTela = tamanhoTile * tamanhoMaximoLin;
@@ -37,6 +37,7 @@ public class  PainelJogo extends JPanel implements Runnable{
     public AssetSetter aSetter = new AssetSetter(this);
     public IU iu= new IU(this);
     public Eventos Eventos = new Eventos(this);
+    public CutsceneManager csManager = new CutsceneManager(this);
     Thread threadJogo;
 
     public Jogador jogador = new Jogador(this,inputT);
@@ -47,6 +48,9 @@ public class  PainelJogo extends JPanel implements Runnable{
     public final int pauseState = 2;
     public final int dialogoState = 3;
     public final int gameOverState = 4;
+    public final int cutsceneState = 11;
+
+    public boolean lutaBoss = false;
 
     //FAZER EM 2D O ARRAY PARA OS PROXS OBJETOS TAMBEM/NPS/MONSTROS
     public Entidade obj[][]=new Entidade[mapaMax][10];
@@ -75,18 +79,32 @@ public class  PainelJogo extends JPanel implements Runnable{
     }
 
     public void retry(){
-        jogador.setDefaultPositions();
+        if (mapaAtual == 4) {
+            jogador.mundox = this.tamanhoTile*26;
+            jogador.mundoy = this.tamanhoTile*47;
+        }
+        else if (mapaAtual == 0){
+            jogador.setDefaultPositions();
+        }
         jogador.restoreLife();
         aSetter.setNPC();
         aSetter.setMonstro();
     }
 
     public void restart(){
+        if (mapaAtual == 4) {
+            jogador.mundox = this.tamanhoTile*26;
+            jogador.mundoy = this.tamanhoTile*47;
+        }
+        else if (mapaAtual == 0){
+            jogador.setDefaultPositions();
+        }
         jogador.defineValoresPadrao();
-        jogador.setDefaultPositions();
         aSetter.setObjeto();
         aSetter.setNPC();
         aSetter.setMonstro();
+        removePortaTemp();
+        lutaBoss = false;
     }
 
     public void comecaThread() {
@@ -161,6 +179,8 @@ public class  PainelJogo extends JPanel implements Runnable{
 
             listaEntidade.clear();
 
+            csManager.draw(g2);
+
             //interface do usuario
             iu.draw(g2);
 
@@ -212,6 +232,17 @@ public class  PainelJogo extends JPanel implements Runnable{
                 e.printStackTrace();
             }
 
+        }
+    }
+    public void removePortaTemp() {
+
+        for (int numMapa = 0; numMapa <mapaMax; numMapa++) {
+
+            for (int i = 0; i< obj[1].length; i ++) {
+                if (obj[numMapa][i] != null && obj[numMapa][i].temp == true) {
+                    obj[numMapa][i] = null;
+                }
+            }
         }
     }
 }
